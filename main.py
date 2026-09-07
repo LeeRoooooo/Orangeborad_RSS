@@ -9,18 +9,23 @@ TARGET_URL = "https://orangeboard.co.kr/reports?srt=rct"
 
 KST = timezone(timedelta(hours=9))
 
+
 async def scrape_reports(page):
     print("🔎 오렌지보드 최신 리포트 탐색 중...")
-    await page.goto(TARGET_URL, wait_until="networkidle", timeout=60000)
+    try:
+        # User-Agent 설정 및 접속 대기
+        await page.goto(TARGET_URL, wait_until="networkidle", timeout=90000)
 
-    await page.wait_for_selector(
-        "a[href*='/@'] h5, h5", state="visible", timeout=20000
-    )
+        # 리포트 링크 로딩 대기
+        await page.wait_for_selector(
+            "a[href*='/@']", state="attached", timeout=30000
+        )
+    except Exception as e:
+        print(f"⚠️ 페이지 로딩 타임아웃 경고: {e}")
 
     reports_data = await page.evaluate(
         """() => {
         const results = [];
-        
         const allLinks = Array.from(document.querySelectorAll("a[href*='/@']"));
         const articleLinks = allLinks.filter(a => {
             const href = a.getAttribute('href') || '';
@@ -108,8 +113,20 @@ async def scrape_reports(page):
 
 async def main():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
+        # 리눅스 환경 최적화 브라우저 옵션
+        browser = await p.chromium.launch(
+            headless=True,
+            args=[
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--disable-blink-features=AutomationControlled",
+            ],
+        )
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+        )
+        page = await context.new_page()
 
         entries = await scrape_reports(page)
         await browser.close()
@@ -118,7 +135,7 @@ async def main():
             print("⚠️ 수집된 항목이 없습니다.")
             return
 
-        # [수정] 복잡한 정렬 대신, 방금 거꾸로 나왔던 순서를 그대로 180도 뒤집어서 최신순으로 교정
+        # 최신 글 1등 배치 (역순 뒤집기)
         entries.reverse()
 
         fg = FeedGenerator()
@@ -129,12 +146,10 @@ async def main():
 
         now = datetime.now(KST)
 
-        # 1등(원자력 발전...)이 가장 최신 시간(now), 아래로 갈수록 1분씩 과거 시간
         for idx, item in enumerate(entries[:40]):
             fe = fg.add_entry()
             fe.id(item["link"])
 
-            # 형식: [작성자] 제목 (날짜)
             author_prefix = f"[{item['author']}] " if item["author"] else ""
             display_date = item["date"].replace("-", ".")
             fe.title(f"{author_prefix}{item['title']} ({display_date})")
@@ -149,7 +164,7 @@ async def main():
 
         output_file = "orangeboard_reports.xml"
         fg.rss_file(output_file, pretty=True)
-        print(f"✨ 완료: {output_file} (최신 글 1등 배치 성공)")
+        print(f"✨ 완료: {output_file} (총 {len(entries)}건 생성)")
 
 
 if __name__ == "__main__":
