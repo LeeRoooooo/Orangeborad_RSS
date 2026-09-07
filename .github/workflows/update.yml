@@ -2,20 +2,19 @@ name: Update Orangeboard RSS Feed
 
 on:
   schedule:
-    # 2시간 간격 실행 (UTC 기준 홀수 시 0분 -> 한국 시간 매 홀수 시 정각)
+    # 2시간 간격 실행 (UTC 기준 홀수 시 0분 -> KST 매 홀수 시 정각)
     - cron: '0 1,3,5,7,9,11,13,15,17,19,21,23 * * *'
-  workflow_dispatch: # 수동 실행 허용
+  workflow_dispatch:
 
 permissions:
-  contents: write # 갱신된 xml 파일 push 권한 필수
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   run-rss-crawler:
     runs-on: ubuntu-latest
-
-    # Node.js 24 강제 전환 경고 억제 환경 변수
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: 체크아웃 리포지토리
@@ -25,7 +24,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          # requirements.txt 누락 에러를 방지하기 위해 cache 옵션 제거
 
       - name: 패키지 및 브라우저 엔진 설치
         run: |
@@ -33,20 +31,35 @@ jobs:
           pip install playwright feedgen pytz
           playwright install --with-deps chromium
 
-      - name: RSS 크롤러 스크립트 실행
+      - name: RSS 크롤러 스크립트 실행 (경로 자동 탐색)
         run: |
-          python "RSS_오렌지보드.py"
+          # 저장소 내의 오렌지보드 파이썬 파일을 자동으로 찾아 실행
+          TARGET_FILE=$(find . -maxdepth 2 -name "*오렌지보드*.py" | head -n 1)
+          if [ -z "$TARGET_FILE" ]; then
+            # 한글 인코딩 문제 대비: RSS*.py 탐색
+            TARGET_FILE=$(find . -maxdepth 2 -name "RSS*.py" | head -n 1)
+          fi
+          
+          if [ -n "$TARGET_FILE" ]; then
+            echo "실행 대상 파일: $TARGET_FILE"
+            python "$TARGET_FILE"
+          else
+            echo "❌ 파이썬 스크립트 파일을 찾을 수 없습니다. 파일명을 확인해주세요."
+            exit 1
+          fi
 
       - name: 갱신된 RSS 피드 커밋 및 푸시
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add orangeboard_reports.xml
           
-          # 변경 사항이 있을 때만 커밋 및 푸시
+          # 생성된 모든 xml 파일 스테이징
+          git add *.xml
+          
           if git diff --staged --quiet; then
             echo "변경 사항이 없어 커밋을 건너뜁니다."
           else
             git commit -m "Auto Update: Orangeboard RSS Feed [$(date '+%Y-%m-%d %H:%M')]"
-            git push
+            git pull --rebase origin main || true
+            git push origin HEAD:main
           fi
