@@ -1,4 +1,2 @@
-xml.etree
-datetime
-BeautifulSoup
-urllib3
+playwright
+feedgen
