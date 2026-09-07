@@ -1,0 +1,124 @@
+name: Egloos RSS Auto Update Bot (All-in-One)
+
+# 2시간 간격 정기 순찰 스케줄 설정
+on:
+  schedule:
+    - cron: '0 */2 * * *' # 2시간마다 정각에 무인 로봇 비서 가동
+  workflow_dispatch:      # 필요할 때 수동으로 즉시 실행할 수 있는 버튼 활성화
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. 저장소 환경 열기 (깃허브 가상 컴퓨터 인프라 세팅)
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    # 2. 가상 컴퓨터에 파이썬 기본 환경 설치
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    # 3. 크롤링에 필요한 핵심 패키지 설치
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
+
+    # 4. [핵심] 외부 파일 없이 YAML 내부에서 파이썬 크롤러를 즉석 가동 (인라인 스크립트)
+    - name: Run Inline Egloos Scraper
+      shell: python # 깃허브 가상 컴퓨터에게 아래 텍스트를 파이썬 코드로 인식하라고 명령하는 장치입니다.
+      run: |
+        import xml.etree.ElementTree as ET
+        from datetime import datetime
+        import requests
+        from bs4 import BeautifulSoup
+        import re
+        from urllib.parse import quote
+        import urllib3
+
+        # SSL 경고 숨기기
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+        target_url = "https://egloos.com/kor"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+
+        try:
+            response = requests.get(target_url, headers=headers, verify=False, timeout=10)
+            response.raise_for_status()
+        except Exception as e:
+            print(f"웹사이트 연결 실패: {e}")
+            exit(0) # 실패 시 조용히 종료
+
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # RSS 기본 골격 생성
+        rss = ET.Element("rss", version="2.0")
+        channel = ET.SubElement(rss, "channel")
+        ET.SubElement(channel, "title").text = "이글루스 종합 건강 및 정보 피드"
+        ET.SubElement(channel, "link").text = target_url
+        ET.SubElement(channel, "description").text = "YAML 파일 내부 인라인 스크립트로 2시간마다 자동 갱신되는 피드입니다."
+
+        # 요청하신 실제 HTML 태그 구조 정밀 저격 수집
+        post_items = soup.select("li.Home_post-item__rLMTZ")
+
+        for item_elm in post_items:
+            try:
+                # 제목 추출
+                title_tag = item_elm.select_one("a.Home_post-item__item-title__o1tdK")
+                if not title_tag:
+                    continue
+                title = title_tag.text.strip()
+
+                # 링크 추출 및 한글 주소 인코딩 조합 수식 적용
+                raw_href = title_tag.get("href", "")
+                encoded_href = quote(raw_href, safe="/")
+                full_link = f"https://egloos.com{encoded_href}"
+
+                # 내용(본문 요약) 추출
+                desc_tag = item_elm.select_one("a.Home_post-item__item-des__QGtuL")
+                description = desc_tag.text.strip() if desc_tag else title
+
+                # 정확한 포스트 업로드 타임스탬프 추출 수식 (작가 프로필 우회)
+                pub_date = datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+                thumb_img_tag = item_elm.select_one("a.Home_post-item__thumbnail__GNI4c img")
+                
+                if thumb_img_tag:
+                    img_src = thumb_img_tag.get("srcset", "") or thumb_img_tag.get("src", "")
+                    time_match = re.search(r'(\d{14})', img_src)
+                    
+                    if time_match:
+                        timestamp_str = time_match.group(1) # 예: "20260518161009"
+                        dt = datetime.strptime(timestamp_str, "%Y%m%d%H%M%S")
+                        pub_date = dt.strftime("%Y.%m.%d %H:%M:%S") # 원하는 포맷으로 고정
+
+                # RSS 아이템으로 규격화
+                rss_item = ET.SubElement(channel, "item")
+                ET.SubElement(rss_item, "title").text = title
+                ET.SubElement(rss_item, "link").text = full_link
+                ET.SubElement(rss_item, "description").text = description
+                ET.SubElement(rss_item, "pubDate").text = pub_date
+
+            except Exception:
+                continue
+
+        # XML 들여쓰기 정렬 및 파일 저장
+        ET.indent(rss, space="  ", level=0)
+        xml_str = ET.tostring(rss, encoding="utf-8", method="xml").decode("utf-8")
+        final_rss = '<?xml version="1.0" encoding="UTF-8" ?>\n' + xml_str
+
+        with open("egloos_feed.xml", "w", encoding="utf-8") as f:
+            f.write(final_rss)
+        print("인라인 파이썬 크롤링 및 XML 빌드 완료!")
+
+    # 5. 갱신된 'egloos_feed.xml' 파일을 저장소에 자동으로 밀어넣고(Push) 로봇 비서 퇴근
+    - name: Commit and Push Updated RSS
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add egloos_feed.xml
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Automated RSS inline update every 2 hours" && git push)
