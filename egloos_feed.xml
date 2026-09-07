@@ -1,80 +1,156 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
-  <channel>
-    <title>이글루스 종합 건강 및 정보 피드</title>
-    <link>https://egloos.com/kor</link>
-    <description>YAML 파일 내부 인라인 스크립트로 2시간마다 자동 갱신되는 피드입니다.</description>
-    <item>
-      <title>GM 한국사업장, 서비스 네트워크 기반 고객 서비스 경쟁력 재확인</title>
-      <link>https://egloos.com/carmgz/23542</link>
-      <description>GM 한국사업장이 고객 접점과 정비 현장을 살피며 전국 서비스 네트워크를 기반으로 구축해 . ..</description>
-      <pubDate>2026.09.07 17:40:03</pubDate>
-    </item>
-    <item>
-      <title>BMW 그룹, 순수전기차 누적 200만 대 돌파… 수입 프리미엄 전기차 리더십 이어가</title>
-      <link>https://egloos.com/carmgz/23543</link>
-      <description>BMW 그룹이 순수전기차(BEV) 누적 판매량이 200만 대를 돌파했다고 밝혔다. 지난 2. ..</description>
-      <pubDate>2026.09.07 17:40:03</pubDate>
-    </item>
-    <item>
-      <title>볼보트럭, 22주년 맞아 ‘서비스 캠프’ 전국 순회 실시</title>
-      <link>https://egloos.com/carmgz/23544</link>
-      <description>볼보트럭코리아가 올해로 22주년을 맞은 '볼보트럭 서비스캠프 &amp; 안전 캠페인'을 통해 전국. ..</description>
-      <pubDate>2026.09.07 17:40:04</pubDate>
-    </item>
-    <item>
-      <title>금호타이어, 넷플릭스 시청 안전 캠페인 ‘솔로지옥’ 편 이벤트 실시</title>
-      <link>https://egloos.com/carmgz/23545</link>
-      <description>금호타이어가 ‘넷플릭스’와 함께 진행하는 시청 안전 캠페인 ‘금호타이어 넷!가이드’의 ‘솔. ..</description>
-      <pubDate>2026.09.07 17:40:04</pubDate>
-    </item>
-    <item>
-      <title>한국타이어 드라이브, 카밋 페스티벌 '까쥬(GAS &amp; JUICE by DRIVE)' 개최</title>
-      <link>https://egloos.com/carmgz/23546</link>
-      <description>한국타이어앤테크놀로지(이하 한국타이어)의 모터컬처 브랜드 ‘드라이브(DRIVE)’가 9월 . ..</description>
-      <pubDate>2026.09.07 17:40:04</pubDate>
-    </item>
-    <item>
-      <title>“66만㎡ 억새부터 푸른 바다까지” 10월 국내 여행지 5선</title>
-      <link>https://egloos.com/informaticsview/23535</link>
-      <description>10월 국내 여행지가 좋은 이유는 단풍뿐만이 아닙니다. 시원한 가을 바람과 은빛 억새, 알. ..</description>
-      <pubDate>2026.09.07 17:10:03</pubDate>
-    </item>
-    <item>
-      <title>지커, 7X 고객 경험 본격화…사전예약 고객 대상 프라이빗 프리뷰 시승 개시</title>
-      <link>https://egloos.com/carmgz/23536</link>
-      <description>지커가 국내 첫 출시 모델인 중형 전기 SUV 7X의 사전예약 고객을 대상으로 프라이빗 프. ..</description>
-      <pubDate>2026.09.07 17:10:08</pubDate>
-    </item>
-    <item>
-      <title>신형 아반떼, 출고 타이어로 '넥센타이어' 신는다</title>
-      <link>https://egloos.com/carmgz/23537</link>
-      <description>넥센타이어가 현대자동차의 ‘디 올 뉴 아반떼'에 신차용 타이어(OE)를 공급한다고 7일 밝. ..</description>
-      <pubDate>2026.09.07 17:10:08</pubDate>
-    </item>
-    <item>
-      <title>토요타코리아, 고객 참여형 프로그램 ‘TGR 랠리 플레이’ 성료</title>
-      <link>https://egloos.com/carmgz/23538</link>
-      <description>토요타코리아는 지난 9월 5일 충청남도 보령시 아주자동차대학교와 보령 일대에서 진행한 고객. ..</description>
-      <pubDate>2026.09.07 17:10:08</pubDate>
-    </item>
-    <item>
-      <title>LG엔솔-서울大, 차세대 LMR배터리 상용화 길 열었다</title>
-      <link>https://egloos.com/carmgz/23539</link>
-      <description>LG에너지솔루션과 서울대가 차세대 LMR(리튬망간리치) 배터리의 안정성을 혁신적으로 개선할. ..</description>
-      <pubDate>2026.09.07 17:10:08</pubDate>
-    </item>
-    <item>
-      <title>타타대우-라이드플럭스, 자율주행 기술 협력 강화 “레벨2+ 양산차 적용 및 레벨4 상용화 기반 구축”</title>
-      <link>https://egloos.com/carmgz/23532</link>
-      <description>타타대우모빌리티가 자율주행 AI 소프트웨어 기술기업 라이드플럭스와 ‘상용차 레벨2+ 주행보. ..</description>
-      <pubDate>2026.09.07 16:40:06</pubDate>
-    </item>
-    <item>
-      <title>"마을이 풍경이 너무 아름답네요" 외나무다리로 유명한 국가민속문화유산 마을</title>
-      <link>https://egloos.com/traveltimesnews/23540</link>
-      <description>경북 영주시 문수로 732-20에는 내성천이 삼면을 감아 돌아 나가는 무섬마을이 들어앉았다. ..</description>
-      <pubDate>2026.09.07 17:10:10</pubDate>
-    </item>
-  </channel>
-</rss>
+import asyncio
+from datetime import datetime, timedelta, timezone
+from urllib.parse import urljoin
+from feedgen.feed import FeedGenerator
+from playwright.async_api import async_playwright
+
+BASE_URL = "https://orangeboard.co.kr"
+TARGET_URL = "https://orangeboard.co.kr/reports?srt=rct"
+
+KST = timezone(timedelta(hours=9))
+
+async def scrape_reports(page):
+    print("🔎 오렌지보드 최신 리포트 탐색 중...")
+    await page.goto(TARGET_URL, wait_until="networkidle", timeout=60000)
+
+    await page.wait_for_selector(
+        "a[href*='/@'] h5, h5", state="visible", timeout=20000
+    )
+
+    reports_data = await page.evaluate(
+        """() => {
+        const results = [];
+        
+        const allLinks = Array.from(document.querySelectorAll("a[href*='/@']"));
+        const articleLinks = allLinks.filter(a => {
+            const href = a.getAttribute('href') || '';
+            return /^\\/@[^\\/]+\\/.+/.test(href);
+        });
+
+        articleLinks.forEach(link => {
+            const href = link.getAttribute('href') || '';
+            if (!href) return;
+
+            const h5 = link.querySelector("h5");
+            const title = h5 ? h5.innerText.trim() : link.innerText.trim();
+            if (!title) return;
+
+            const matchUser = href.match(/^\\/@([^\\/]+)/);
+            let authorId = matchUser ? matchUser[1] : '';
+
+            let row = link.parentElement;
+            for (let i = 0; i < 6; i++) {
+                if (row && row.parentElement && row.parentElement !== document.body) {
+                    if (/\\d{4}[-.]\\d{2}[-.]\\d{2}/.test(row.innerText)) {
+                        break;
+                    }
+                    row = row.parentElement;
+                }
+            }
+
+            let authorName = '';
+            if (row) {
+                const authorLink = row.querySelector(`a[href='/@${authorId}']`);
+                if (authorLink) {
+                    authorName = authorLink.innerText.trim();
+                }
+            }
+            const author = authorName || authorId;
+
+            let dateStr = '';
+            if (row) {
+                const dateMatch = row.innerText.match(/\\b(\\d{4})[-.](\\d{2})[-.](\\d{2})\\b/);
+                if (dateMatch) {
+                    dateStr = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}`;
+                }
+            }
+
+            const rect = link.getBoundingClientRect();
+            const topPos = rect.top + window.scrollY;
+
+            results.push({
+                href: href,
+                title: title,
+                author: author,
+                date: dateStr,
+                top: topPos
+            });
+        });
+
+        return results;
+    }"""
+    )
+
+    seen = set()
+    entries = []
+    for item in reports_data:
+        if item["href"] not in seen:
+            seen.add(item["href"])
+            full_link = urljoin(BASE_URL, item["href"])
+            date_val = (
+                item["date"]
+                if item["date"]
+                else datetime.now(KST).strftime("%Y-%m-%d")
+            )
+
+            entries.append(
+                {
+                    "title": item["title"],
+                    "author": item["author"],
+                    "link": full_link,
+                    "date": date_val,
+                    "top": item["top"],
+                }
+            )
+
+    return entries
+
+
+async def main():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+
+        entries = await scrape_reports(page)
+        await browser.close()
+
+        if not entries:
+            print("⚠️ 수집된 항목이 없습니다.")
+            return
+
+        # [수정] 복잡한 정렬 대신, 방금 거꾸로 나왔던 순서를 그대로 180도 뒤집어서 최신순으로 교정
+        entries.reverse()
+
+        fg = FeedGenerator()
+        fg.title("오렌지보드 최신 리포트 피드")
+        fg.link(href=TARGET_URL, rel="alternate")
+        fg.description("오렌지보드 최신 리포트 실시간 RSS")
+        fg.language("ko")
+
+        now = datetime.now(KST)
+
+        # 1등(원자력 발전...)이 가장 최신 시간(now), 아래로 갈수록 1분씩 과거 시간
+        for idx, item in enumerate(entries[:40]):
+            fe = fg.add_entry()
+            fe.id(item["link"])
+
+            # 형식: [작성자] 제목 (날짜)
+            author_prefix = f"[{item['author']}] " if item["author"] else ""
+            display_date = item["date"].replace("-", ".")
+            fe.title(f"{author_prefix}{item['title']} ({display_date})")
+
+            fe.link(href=item["link"])
+            fe.description(
+                f"작성자: {item['author']}<br/>날짜: {display_date}<br/><a href='{item['link']}'>원문 보기</a>"
+            )
+
+            item_pub_date = now - timedelta(minutes=idx)
+            fe.pubDate(item_pub_date)
+
+        output_file = "orangeboard_reports.xml"
+        fg.rss_file(output_file, pretty=True)
+        print(f"✨ 완료: {output_file} (최신 글 1등 배치 성공)")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
